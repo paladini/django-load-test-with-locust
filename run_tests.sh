@@ -43,29 +43,15 @@ mkdir -p results
 echo ""
 echo "📊 Executando bateria de testes..."
 
-# Teste 1: Básico - Low Load
-run_test "Teste Básico (Carga Baixa)" "locustfile_basic.py" 20 5 "60s"
+# Teste 1: Comparação de Performance - Low Load
+run_test "Teste de Comparação" "locustfile_comparison.py" 20 5 "120s"
 
 echo ""
 echo "⏰ Pausa de 10 segundos entre testes..."
 sleep 10
 
-# Teste 2: Básico - Medium Load
-run_test "Teste Básico (Carga Média)" "locustfile_basic.py" 50 10 "90s"
-
-echo ""
-echo "⏰ Pausa de 15 segundos entre testes..."
-sleep 15
-
-# Teste 3: Comparação de Performance
-run_test "Teste de Comparação" "locustfile_comparison.py" 30 8 "120s"
-
-echo ""
-echo "⏰ Pausa de 10 segundos entre testes..."
-sleep 10
-
-# Teste 4: Stress Test
-run_test "Teste de Stress" "locustfile_comparison.py" 100 20 "60s"
+# Teste 2: Comparação de Performance - Medium Load
+run_test "Teste de Comparação" "locustfile_comparison.py" 50 10 "90s"
 
 echo ""
 echo "✅ Todos os testes concluídos!"
