@@ -34,8 +34,8 @@ class PerformanceComparisonUser(HttpUser):
     def test_unoptimized_post_detail(self):
         """Testa detalhes de post NÃO otimizados"""
         post_slugs = [
-            'primeiro-post', 'segundo-post', 'terceiro-post',
-            'quarto-post', 'quinto-post', 'sexto-post'
+            'post-exemplo-50', 'post-exemplo-49', 'post-exemplo-48',
+            'post-exemplo-47', 'post-exemplo-46', 'post-exemplo-45'
         ]
         slug = random.choice(post_slugs)
         self.client.get(f"/post/{slug}/", name="post_detail_unoptimized")
@@ -44,8 +44,8 @@ class PerformanceComparisonUser(HttpUser):
     def test_optimized_post_detail(self):
         """Testa detalhes de post OTIMIZADOS"""
         post_slugs = [
-            'primeiro-post', 'segundo-post', 'terceiro-post',
-            'quarto-post', 'quinto-post', 'sexto-post'
+            'post-exemplo-50', 'post-exemplo-49', 'post-exemplo-48',
+            'post-exemplo-47', 'post-exemplo-46', 'post-exemplo-45'
         ]
         slug = random.choice(post_slugs)
         self.client.get(f"/post/{slug}/optimized/", name="post_detail_optimized")
@@ -107,7 +107,7 @@ class RealisticUser(HttpUser):
         
         # 3. Lê um post específico (50% chance)
         if random.random() < 0.5:
-            post_slugs = ['primeiro-post', 'segundo-post', 'terceiro-post']
+            post_slugs = ['post-exemplo-50', 'post-exemplo-49', 'post-exemplo-48']
             slug = random.choice(post_slugs)
             self.client.get(f"/post/{slug}/", name="session_read_post")
             
