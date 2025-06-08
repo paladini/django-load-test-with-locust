@@ -1,0 +1,47 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<h2>{{ page_title }}</h2>
+
+{% if page_obj %}
+    {% for post in page_obj %}
+        <div class="post">
+            <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+            <div class="post-meta">
+                Por {{ post.author.username }} em {{ post.created_at|date:"d/m/Y H:i" }}
+                {% if post.category %}
+                    | Categoria: <a href="{% url 'blog:category_posts' post.category.id %}">{{ post.category.name }}</a>
+                {% endif %}
+                | Visualizações: {{ post.views_count }}
+            </div>
+            <p>{{ post.content|truncatewords:50 }}</p>
+            <a href="{{ post.get_absolute_url }}" class="btn">Ler Mais</a>
+        </div>
+    {% endfor %}
+
+    <!-- Paginação -->
+    {% if page_obj.has_other_pages %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Primeira</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% else %}
+    <p>Nenhum post encontrado.</p>
+{% endif %}
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'blog:home' %}" class="btn">← Voltar para Home</a>
+</div>
+{% endblock %}

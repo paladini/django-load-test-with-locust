@@ -1,0 +1,46 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<article>
+    <h1>{{ post.title }}</h1>
+    <div class="post-meta">
+        Por {{ post.author.username }} em {{ post.created_at|date:"d/m/Y H:i" }}
+        {% if post.category %}
+            | Categoria: <a href="{% url 'blog:category_posts' post.category.id %}">{{ post.category.name }}</a>
+        {% endif %}
+        | Visualizações: {{ post.views_count }}
+    </div>
+    
+    <div class="post-content" style="margin: 30px 0;">
+        {{ post.content|linebreaks }}
+    </div>
+    
+    <div style="margin-top: 40px;">
+        <small style="color: #666;">
+            Publicado em {{ post.created_at|date:"d/m/Y H:i" }}
+            {% if post.updated_at != post.created_at %}
+                | Atualizado em {{ post.updated_at|date:"d/m/Y H:i" }}
+            {% endif %}
+        </small>
+    </div>
+</article>
+
+{% if related_posts %}
+    <div style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+        <h3>Posts Relacionados</h3>
+        {% for related_post in related_posts %}
+            <div style="margin-bottom: 15px;">
+                <h4><a href="{{ related_post.get_absolute_url }}">{{ related_post.title }}</a></h4>
+                <div class="post-meta">
+                    Por {{ related_post.author.username }} | {{ related_post.views_count }} visualizações
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div style="margin-top: 30px;">
+    <a href="{% url 'blog:post_list' %}" class="btn">← Voltar para Posts</a>
+    <a href="{% url 'blog:home' %}" class="btn">Home</a>
+</div>
+{% endblock %}

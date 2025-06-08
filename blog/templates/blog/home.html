@@ -1,0 +1,50 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="alert alert-info">
+    <strong>Bem-vindo ao Blog Django!</strong> 
+    Este é um exemplo para demonstração de testes de carga usando Locust.
+</div>
+
+<h2>Posts Recentes</h2>
+{% if recent_posts %}
+    {% for post in recent_posts %}
+        <div class="post">
+            <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+            <div class="post-meta">
+                Por {{ post.author.username }} em {{ post.created_at|date:"d/m/Y H:i" }}
+                {% if post.category %}
+                    | Categoria: <a href="{% url 'blog:category_posts' post.category.id %}">{{ post.category.name }}</a>
+                {% endif %}
+                | Visualizações: {{ post.views_count }}
+            </div>
+            <p>{{ post.content|truncatewords:30 }}</p>
+            <a href="{{ post.get_absolute_url }}" class="btn">Ler Mais</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Nenhum post encontrado.</p>
+{% endif %}
+
+<h2>Categorias</h2>
+{% if categories %}
+    <ul>
+    {% for category in categories %}
+        <li>
+            <a href="{% url 'blog:category_posts' category.id %}">{{ category.name }}</a>
+            ({{ category.posts.count }} posts)
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhuma categoria encontrada.</p>
+{% endif %}
+
+<div style="margin-top: 30px;">
+    <h3>Links para Testes de Performance</h3>
+    <p>Compare a diferença entre as versões otimizadas e não otimizadas:</p>
+    <a href="{% url 'blog:post_list' %}" class="btn">Posts (Normal)</a>
+    <a href="{% url 'blog:post_list_optimized' %}" class="btn">Posts (Otimizado)</a>
+    <a href="{% url 'blog:slow_endpoint' %}" class="btn">API Lenta</a>
+</div>
+{% endblock %}
