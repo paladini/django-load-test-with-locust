@@ -87,9 +87,7 @@ django-load-test-with-locust/
 ├── blogproject/                   # Configurações Django
 │   ├── settings.py                # Settings com otimizações
 │   └── urls.py                    # URLs principais
-├── locustfile_basic.py            # Testes básicos Locust
 ├── locustfile_comparison.py       # Testes de comparação
-├── populate_db.py                 # Script para popular BD
 ├── setup.sh                      # Setup automático
 ├── requirements.txt               # Dependências Python
 └── README.md                      # Esta documentação
@@ -124,7 +122,7 @@ O blog estará disponível em: http://127.0.0.1:8000
 Execute testes básicos simulando usuários reais:
 
 ```bash
-locust -f locustfile_basic.py --host=http://127.0.0.1:8000
+locust -f locustfile_comparison.py --host=http://127.0.0.1:8000
 ```
 
 Acesse a interface web do Locust: http://localhost:8089
@@ -144,10 +142,6 @@ locust -f locustfile_comparison.py --host=http://127.0.0.1:8000
 ### Teste Headless (Linha de Comando)
 
 ```bash
-# Teste básico por 60 segundos
-locust -f locustfile_basic.py --host=http://127.0.0.1:8000 \
-       --users 50 --spawn-rate 10 --run-time 60s --headless
-
 # Teste de comparação
 locust -f locustfile_comparison.py --host=http://127.0.0.1:8000 \
        --users 100 --spawn-rate 20 --run-time 120s --headless
@@ -284,30 +278,17 @@ Versão OTIMIZADA:
 
 ## 🎭 Cenários de Teste
 
-### 1. Usuário Navegador Típico (locustfile_basic.py)
-
-- Visita homepage
-- Navega por posts
-- Lê alguns posts
-- Comportamento realístico
-
-### 2. Comparação de Performance (locustfile_comparison.py)
+### 1. Comparação de Performance (locustfile_comparison.py)
 
 - Testa versões otimizadas vs não-otimizadas
 - Identifica gargalos
 - Mede impacto das otimizações
 
-### 3. Usuário API
+### 2. Usuário API
 
 - Foca em endpoints da API
 - Testa performance de JSON
 - Simula aplicações mobile/SPA
-
-### 4. Stress Test
-
-- Requisições muito rápidas
-- Identifica limite máximo
-- Testa recuperação após picos
 
 ## 🎯 Demonstração Passo a Passo
 
@@ -321,7 +302,7 @@ Versão OTIMIZADA:
 
 2. **Executar Teste Básico**
    ```bash
-   locust -f locustfile_basic.py --host=http://127.0.0.1:8000
+   locust -f locustfile_comparison.py --host=http://127.0.0.1:8000
    # Mostrar interface web, iniciar com 10-20 usuários
    ```
 

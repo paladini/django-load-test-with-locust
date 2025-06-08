@@ -6,7 +6,6 @@ Compare diretamente o impacto das otimizações
 from locust import HttpUser, task, between
 import random
 
-
 class PerformanceComparisonUser(HttpUser):
     wait_time = between(1, 2)
     
@@ -58,34 +57,6 @@ class PerformanceComparisonUser(HttpUser):
                 response.success()
             elif response.status_code == 500:
                 response.failure("Server Error")
-
-
-class StressTestUser(HttpUser):
-    """Usuário para teste de stress - requests mais rápidos"""
-    wait_time = between(0.1, 0.5)
-    weight = 2
-    
-    @task(5)
-    def rapid_fire_requests(self):
-        """Requests rápidos para testar limites"""
-        endpoints = [
-            "/api/health/",
-            "/api/posts/",
-            "/",
-        ]
-        endpoint = random.choice(endpoints)
-        self.client.get(endpoint, name="stress_test")
-    
-    @task(1)
-    def stress_slow_endpoint(self):
-        """Stress test no endpoint lento"""
-        with self.client.get("/api/slow/", catch_response=True, name="stress_slow") as response:
-            # Aceita timeouts como esperado
-            if response.status_code in [200, 500]:
-                response.success()
-            else:
-                response.failure(f"Unexpected status: {response.status_code}")
-
 
 class RealisticUser(HttpUser):
     """Usuário com comportamento mais realístico"""
