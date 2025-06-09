@@ -26,6 +26,8 @@ def home(request):
 
 def post_list(request):
     """View com paginação - versão SEM otimização"""
+    # Problema N+1 Queries
+    # Para 10 posts, isso pode gerar 11 queries (1 para posts + 10 para autores)
     posts = Post.objects.filter(published=True).order_by('-created_at')
     
     # Adiciona um delay artificial para simular processamento
@@ -44,6 +46,9 @@ def post_list(request):
 
 def post_list_optimized(request):
     """View com paginação - versão OTIMIZADA"""
+    
+    # Problema N+1 Queries resolvido com select_related
+    # Para 10 posts, isso gera apenas 2 queries (1 para posts + 1 para autores e categorias)
     posts = Post.objects.filter(published=True)\
                        .select_related('author', 'category')\
                        .order_by('-created_at')
